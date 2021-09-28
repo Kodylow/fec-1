@@ -30,11 +30,14 @@ const LoadingScreen =styled.div`
   transition: 0.3s;
 `
 
+
+
 export default function Overview(props) {
   let { productId } = useContext(SharedContext);
 
   const [styles, setStyles] = useState(null);
   const [currStyle, setCurrStyle] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const defaultStyle = (s) => {
     let styleIndex = 0;
@@ -59,6 +62,18 @@ export default function Overview(props) {
       })
       .catch((err) => console.log("get info error, "));
   }, [productId]);
+
+  const handleResize = () => {
+    if (window.innerWidth < 1000) {
+        setIsMobile(true)
+    } else {
+        setIsMobile(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+  })
 
   return (
     <Wrapper className='Overview'>
